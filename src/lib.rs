@@ -19,15 +19,16 @@ mod tests {
     fn test_forward_pass() {
         pretty_env_logger::try_init().ok();
 
-        let layers = vec![layer!(784, 128), layer!(128, 64), layer!(64, 10)];
+        #[rustfmt::skip]
+        let layers = vec![
+            layer!(784, 128), 
+            layer!(128, 64), 
+            layer!(64, 10)
+        ];
 
-        let inputs = vec![util::random_array1(784); 10];
         let mlp = MLP::new(layers);
-        let mut outputs: Vec<_> = Vec::new();
-
-        for batch in inputs.iter() {
-            outputs.push(mlp.forward(batch));
-        }
+        let inputs = util::random_array1(784);
+        let outputs = mlp.forward(&inputs);
 
         log::info!("Outputs {:?}", outputs);
 
